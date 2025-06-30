@@ -1,0 +1,11 @@
+service:
+  name: login-service
+
+image:
+  db: postgres:16.9-bullseye
+  login-api: login-api
+
+secret:
+  tls:
+    crt: BASE64_ENCODED_CRT
+    key: BASE64_ENCODED_KEY
