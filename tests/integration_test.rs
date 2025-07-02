@@ -24,7 +24,6 @@ mod tests {
         assert_eq!(resp.status(), 200);
         assert_eq!(resp.body(), "Healthy!");
         Ok(())
-
     }
 
     #[tokio::test]

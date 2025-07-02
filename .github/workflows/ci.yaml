@@ -37,11 +37,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          IMAGE=ghcr.io/${{ github.repository_owner }}/login-service:latest
+          IMAGE=ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/login-service:latest
           docker build -t $IMAGE .
           echo "Built image: $IMAGE"
 
       - name: Push Docker image to GHCR
         run: |
-          IMAGE=ghcr.io/${{ github.repository_owner }}/login-service:latest
+          IMAGE=ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/login-service:latest
           docker push $IMAGE
