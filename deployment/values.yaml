@@ -9,3 +9,6 @@ secret:
   tls:
     crt: BASE64_ENCODED_CRT
     key: BASE64_ENCODED_KEY
+
+monitor:
+  enabled: true

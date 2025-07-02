@@ -6,11 +6,13 @@ metadata:
   labels:
     app.kubernetes.io/name: {{ .Values.service.name }}-cluster
     app.kubernetes.io/component: login-service
+    monitoring: enabled
 spec:
   type: ClusterIP
   selector:
     app.kubernetes.io/name: {{ .Values.service.name }}-api
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 8081
