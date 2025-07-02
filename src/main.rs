@@ -1,6 +1,6 @@
 mod errors;
-mod auth;
 mod router;
+mod handler;
 
 #[tokio::main]
 async fn main() {

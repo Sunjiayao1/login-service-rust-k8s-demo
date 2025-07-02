@@ -1,24 +1,32 @@
+use crate::errors::{AuthError, AuthErrorReason};
 use base64::prelude::*;
 use chrono::Utc;
-use crate::errors::{AuthError, AuthErrorReason};
+use metrics::increment_counter;
+use warp::reject;
+
+const USERNAME: &str = "username";
+const PASSWORD: &str = "password";
 
 pub async fn authorize(auth_header: Option<String>) -> Result<impl warp::Reply, warp::Rejection> {
-    let username = "username";
-    let password = "password";
-    if let Some(auth_header) = auth_header {
-        if validate_basic_auth(&auth_header, &username, &password) {
+    match auth_header {
+        Some(header) if validate_basic_auth(&header, USERNAME, PASSWORD) => {
+            increment_counter!("login_success_total");
             Ok(warp::reply::html("Hello, protected endpoint! Authenticate!"))
-        } else {
-            Err(warp::reject::custom(AuthError {
+        }
+        Some(_) => {
+            increment_counter!("login_failure_total");
+            Err(reject::custom(AuthError {
                 reason: AuthErrorReason::InvalidCredentials,
                 timestamp: Utc::now(),
             }))
         }
-    } else {
-        Err(warp::reject::custom(AuthError {
-            reason: AuthErrorReason::MissingCredentials,
-            timestamp: Utc::now(),
-        }))
+        None => {
+            increment_counter!("login_failure_total");
+            Err(warp::reject::custom(AuthError {
+                reason: AuthErrorReason::MissingCredentials,
+                timestamp: Utc::now(),
+            }))
+        }
     }
 }
 

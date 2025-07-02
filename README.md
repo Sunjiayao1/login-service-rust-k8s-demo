@@ -56,7 +56,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 echo "127.0.0.1 rust.local" | sudo tee -a /etc/hosts
 ```
 
-### 4. run `./auto/apply-resources.sh`
+### 4. Create login-service by `./auto/apply-resources.sh`
 
 This includes:
 1. Point your shell to use minikube Docker-demon by `eval $(minikube docker-env)`
@@ -83,7 +83,7 @@ NAME                    CLASS   HOSTS        ADDRESS               PORTS     AGE
 login-service-ingress   nginx   rust.local                        80, 443   3m12s
 ```
 
-### 4. run `./auto/setup-ingress.sh`
+### 4. Setup Ingress by `./auto/setup-ingress.sh`
 
 This includes:
 1. change ingress-nginx controller type to `LoadBalancer`
@@ -104,15 +104,20 @@ For healthz endpoint:
 curl -k https://rust.local:<high port>/healthz # for high port
 curl -k https://rust.local/healthz   # for minikube tunnel
 ```
-For  authorization endpoint:
+For authorization endpoint:
 ```shell
 curl -k -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ=" https://rust.local:<high port for 443>/auth # for high port
 curl -k -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ=" https://rust.local/auth # for minikube tunnel
 ```
 
+### 6. Setup Monitoring by `./auto/setup-monitoring.sh`
+
+This includes:
+1. Add Prometheus community
+2. Installing kube-prometheus-stack (this will also add Grafana)
+
 ## TODO
 - Use cert-manager + Encrypt instead of self-signed cert
-- Add Prometheus/Grafana for monitoring
 - Deploy to AWS/GCP
 - Create createUser endpoint to save user and password inside a DB
 
