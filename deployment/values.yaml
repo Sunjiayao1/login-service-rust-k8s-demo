@@ -10,5 +10,17 @@ secret:
     crt: BASE64_ENCODED_CRT
     key: BASE64_ENCODED_KEY
 
-monitor:
-  enabled: true
+kube-prometheus-stack:
+  grafana:
+    ADMIN_PASSWORD: ADMIN_PASSWORD
+    service:
+      type: ClusterIP
+    ingress:
+      enabled: false
+
+  prometheus:
+    service:
+      type: ClusterIP
+
+  alertmanager:
+    enabled: false
