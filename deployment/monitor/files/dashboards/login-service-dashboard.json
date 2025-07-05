@@ -1,0 +1,22 @@
+{
+  "uid": "login",
+  "title": "Login Service Dashboard",
+  "schemaVersion": 30,
+  "version": 1,
+  "refresh": "30s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Login Success",
+      "id": 1,
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "login_success_total",
+          "legendFormat": "Success",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}
