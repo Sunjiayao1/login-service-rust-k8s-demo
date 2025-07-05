@@ -1,8 +1,8 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ .Values.service.name }}-service-monitor
-  namespace: {{ .Values.service.name }}
+  name: {{ .Values.service.name }}-monitor
+  namespace: {{ .Release.Namespace }}
   labels:
     release: prometheus
 spec:
@@ -15,4 +15,4 @@ spec:
       interval: 15s
   namespaceSelector:
     matchNames:
-      - {{ .Values.service.name }}
+      - {{ .Release.Namespace }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: monitor-grafana-dashboard-login
+  namespace: {{ .Release.Namespace }}
+  labels:
+    grafana_dashboard: "1"
+    dashboard-provider: login
+data:
+  login-service-dashboard.json: |
+{{ .Files.Get "files/dashboards/login-service-dashboard.json" | indent 4 }}

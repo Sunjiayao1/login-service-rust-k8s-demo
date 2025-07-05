@@ -1,9 +1,7 @@
 apiVersion: v2
-name: my-app
-description: Login Service with Prometheus and Grafana monitoring
-type: application
+name: monitor
+description: Prometheus and Grafana monitoring for login service
 version: 0.1.0
-appVersion: "1.16.0"
 dependencies:
   - name: kube-prometheus-stack
     version: 58.0.0
