@@ -1,5 +1,5 @@
 apiVersion: v2
-name: my-app
+name: login-service
 description: Login Service
 type: application
 version: 0.1.0
