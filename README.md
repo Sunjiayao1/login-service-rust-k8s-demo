@@ -15,22 +15,6 @@ For additional questions, feel free to contact me — happy to support! 🙌
 - HTTPS access via `https://rust.local`
 - Local development via Minikube
 
-## Project Structure
-
-```bash
-login-service-rust-k8s-demo
-├── Dockerfile
-├── auto/
-├── charts/
-├── src/
-├── tests/
-├── deployment/
-│   ├── templates/
-│   ├── Chart.yaml
-│   └── values.yaml
-└── README.md
-```
-
 ## Getting Started
 
 ### 1. Start Minikube
@@ -110,11 +94,30 @@ curl -k -H "Accept: application/json" -H "Content-Type: application/json" -H "Au
 curl -k -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization:Basic dXNlcm5hbWU6cGFzc3dvcmQ=" https://rust.local/auth # for minikube tunnel
 ```
 
-### 6. Setup Monitoring by `./auto/setup-monitoring.sh`
+### 6. Monitor
 
-This includes:
-1. Add Prometheus community
-2. Installing kube-prometheus-stack (this will also add Grafana)
+Access Prometheus through: http://localhost:9090"
+```shell
+kubectl get svc -l app=kube-prometheus-stack-prometheus -n monitor -o jsonpath="{.items[0].metadata.name}"  # get service name
+kubectl port-forward -n monitor svc/<service-name> 9090:9090" 
+```
+Access Grafana through: http://localhost:3000"
+```shell
+kubectl --namespace monitor get pod -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=prometheus" -oname # get pod name
+kubectl --namespace monitor port-forward <POD_NAME> 3000
+```
+
+### 7. Simulating a Static TLS User with limited resources access
+
+1. Generate a Private Key and CSR for user-a, then sign the CSR with Kubernetes's CA in `generate-static-user.sh`
+2. create kubeconfig for user-a
+3. test with `user-a-kubeconfig`
+```shell
+KUBECONFIG=./user-a-kubeconfig kubectl get pods -n login-service # successfully get pods
+KUBECONFIG=./user-a-kubeconfig kubectl delete pod <pod-name> -n login-service  # cannot delete
+```
+[image](images/7-1.png)
+
 
 ## TODO
 - Use cert-manager + Encrypt instead of self-signed cert
@@ -125,6 +128,8 @@ This includes:
 - https://kubernetes.github.io/ingress-nginx/deploy/
 - https://github.com/kubernetes/ingress-nginx
 - https://medium.com/@tranquochuyqn93/kubernetes-tutorial-part-5-setting-up-ingress-on-minikube-with-nginx-ingress-controller-93732f9ce548
+- https://bazelbuild.github.io/rules_rust/#setup
+
 
 ## License
 MIT
