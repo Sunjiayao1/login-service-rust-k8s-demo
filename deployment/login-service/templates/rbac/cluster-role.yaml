@@ -1,0 +1,7 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: non-resource-get-role
+rules:
+  - nonResourceURLs: ["/api", "/apis", "/healthz", "/version"]
+    verbs: ["get", "list"]

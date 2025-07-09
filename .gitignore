@@ -3,3 +3,5 @@
 tls.key
 tls.crt
 adminPassword
+certs
+user-a-kubeconfig

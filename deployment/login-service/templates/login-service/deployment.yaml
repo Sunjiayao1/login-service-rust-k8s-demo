@@ -31,7 +31,7 @@ spec:
               memory: "128Mi"
           ports:
             - containerPort: 8081
-          readinessProbe:
+          livenessProbe:
             httpGet:
               path: /healthz
               port: 8081

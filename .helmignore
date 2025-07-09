@@ -28,3 +28,5 @@ tests
 target
 Dockerfile
 adminPassword
+certs/
+user-a-kubeconfig
